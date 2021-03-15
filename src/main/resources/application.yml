@@ -3,6 +3,12 @@ server:
   servlet:
     context-path: /community
 spring:
+  mail:
+    host: smtp.163.com
+    username: wonderccc@163.com
+#
+    password: FMBIQCBWEVEDKGWW
+    protocol: smtps
   thymeleaf:
     cache: false
   datasource:
@@ -21,3 +27,8 @@ mybatis:
   configuration:
     use-generated-keys: true
     map-underscore-to-camel-case: true
+#community
+community:
+  path:
+    domain: http://localhost:80
+    upload: d:/work/data/upload
