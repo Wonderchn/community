@@ -6,20 +6,28 @@
     <sql id="selectFields">
         id, user_id, entity_type, entity_id, target_id, content, status, create_time
     </sql>
+    <sql id="insertFields">
+        user_id, entity_type, entity_id, target_id, content, status, create_time
+    </sql>
 <!--    根据entity_type(评论类型)Entity_id(评论的帖子id)和分页得到评论的数量-->
     <select id="selectCommentByEntity" resultType="Comment">
         select <include refid="selectFields"></include>
         from comment
-        where
-        status = 0,
-        and entity_type =#{entity_type}
-        and entity_id =#{entity_id}
+        where status=0
+        and entity_type= #{entityType}
+        and entity_id=#{entityId}
         order by create_time asc
-        limit #{offset}, #{limit}
+        limit #{offset},#{limit}
     </select>
-
-    <select id="selectCountByEntity">
-
+    <select id="selectCountByEntity" resultType="int">
+        select count(id)
+        from comment
+        where status = 0
+        and entity_type= #{entityType}
+        and entity_id=#{entityId}
     </select>
-
+    <insert id="insertComment" parameterType="Comment">
+        insert into comment(<include refid="insertFields"></include>)
+        values (#{userId},#{entityType},#{entityId},#{targetId},#{content},#{status},#{createTime})
+    </insert>
 </mapper>

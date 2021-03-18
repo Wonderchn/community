@@ -5,9 +5,9 @@ server:
 spring:
   mail:
     host: smtp.163.com
-    username: wonderccc@163.com
+    username: xxx@邮箱地址
 #
-    password: FMBIQCBWEVEDKGWW
+    password: 此处写你自己的授权码
     protocol: smtps
   thymeleaf:
     cache: false

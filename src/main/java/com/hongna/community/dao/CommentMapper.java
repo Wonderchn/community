@@ -12,4 +12,11 @@ public interface CommentMapper {
 
 //    根据回复种类和所评论帖子的id 得到回复的总数量
     int selectCountByEntity(int entityType,int entityId);
+
+    /**
+     * 插入新的comment对象
+     * @param comment 评论对象
+     * @return
+     */
+    int insertComment(Comment comment);
 }

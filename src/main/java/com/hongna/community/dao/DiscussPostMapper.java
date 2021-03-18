@@ -1,5 +1,6 @@
 package com.hongna.community.dao;
 
+import com.hongna.community.entity.Comment;
 import com.hongna.community.entity.DiscussPost;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,4 +32,11 @@ public interface DiscussPostMapper {
      */
     DiscussPost selectDiscussPostById(int id);
 
+    /**
+     * 更新帖子回复内容
+     * @param id
+     * @param commentCount
+     * @return
+     */
+    int updateCommentCount(int id, int commentCount);
 }

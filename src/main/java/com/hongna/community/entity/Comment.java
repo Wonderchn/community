@@ -4,23 +4,91 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
-@Data
-@AllArgsConstructor
 public class Comment {
-//    评论的id
     private int id;
-//    发出评论|回复的 用户id
-    private int user_id;
-//    判断这个是评论还是回复
-    private int entity_type;
-//    评论的是哪一个帖子
-    private int entity_id;
-//    指向的是哪一个回复或评论
-    private int target_id;
-//    回复或评论显示的内容
+    private int userId;
+    private int entityType;
+    private int entityId;
+    private int targetId;
     private String content;
-//    评论的状态
     private int status;
-//    评论创建的时间
-    private Date create_time;
+    private Date createTime;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(int entityType) {
+        this.entityType = entityType;
+    }
+
+    public int getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(int entityId) {
+        this.entityId = entityId;
+    }
+
+    public int getTargetId() {
+        return targetId;
+    }
+
+    public void setTargetId(int targetId) {
+        this.targetId = targetId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", entityType=" + entityType +
+                ", entityId=" + entityId +
+                ", targetId=" + targetId +
+                ", content='" + content + '\'' +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                '}';
+    }
 }
