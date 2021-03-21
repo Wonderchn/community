@@ -7,7 +7,7 @@ spring:
     host: smtp.163.com
     username: xxx@邮箱地址
 #
-    password: 此处写你自己的授权码
+    password: FMBIQCBWEVEDKGWW
     protocol: smtps
   thymeleaf:
     cache: false
@@ -21,6 +21,12 @@ spring:
       maximum-pool-size: 15
       minimum-idle: 5
       idle-timeout: 3000
+#      RedisProperties
+  redis:
+    database: 11
+    host: localhost
+    port: 6379
+    password: 123456
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.hongna.community.entity
@@ -31,4 +37,8 @@ mybatis:
 community:
   path:
     domain: http://localhost:80
+#    头像保存位置
     upload: d:/work/data/upload
+
+
+

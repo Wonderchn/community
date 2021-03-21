@@ -5,7 +5,9 @@ import com.hongna.community.entity.DiscussPost;
 import com.hongna.community.entity.Page;
 import com.hongna.community.entity.User;
 import com.hongna.community.service.DiscussPostService;
+import com.hongna.community.service.LikeService;
 import com.hongna.community.service.UserService;
+import com.hongna.community.util.CommunityConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class HomeController {
+public class HomeController implements CommunityConstant {
 
+    @Autowired
+    private LikeService likeService;
     @Autowired
     private DiscussPostService discussPostService;
 
@@ -42,6 +46,8 @@ public class HomeController {
                 User user = userService.findUserById(post.getUserId());
                 map.put("user", user);
                 discussPosts.add(map);
+                long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST,post.getId());
+                map.put("likeCount", likeCount);
             }
         }
         model.addAttribute("discussPosts", discussPosts);
