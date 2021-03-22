@@ -3,26 +3,45 @@ package com.hongna.community.service;
 
 import com.hongna.community.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.stereotype.Service;
 
+/**
+ * 点赞模块的实现
+ */
 @Service
 public class LikeService {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    public void like(int userId,int entityType,int entityId){
-        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType,entityId);
-        //第一次点是点赞，第二次点是取消赞
-        //先判断是否点过赞  value是set集合存的是userId
-        Boolean isMember = redisTemplate.opsForSet().isMember(entityLikeKey, userId);
-        if(isMember){
-            //说明点过赞，这次是取消赞
-            redisTemplate.opsForSet().remove(entityLikeKey,userId);
-        }else{
-            //说明是第一次点赞
-            redisTemplate.opsForSet().add(entityLikeKey,userId);
-        }
+    //点赞entityUserId：实体作者id
+    public void like(int userId, int entityType, int entityId, int entityUserId){
+        redisTemplate.execute(new SessionCallback() {
+            @Override
+            public Object execute(RedisOperations operations) throws DataAccessException {
+                //先拼好两个key
+                String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
+                String userLikeKey = RedisKeyUtil.getUserLikeKey(entityUserId);
+                //判断某个用户是否对某个实体点过赞
+                boolean isMember = operations.opsForSet().isMember(entityLikeKey,userId);
+                operations.multi();//开启事务
+                if(isMember){
+                    operations.opsForSet().remove(entityLikeKey, userId);
+                    operations.opsForValue().decrement(userLikeKey);
+                }
+                else{
+                    operations.opsForSet().add(entityLikeKey, userId);
+                    if(operations.opsForValue().get(userLikeKey) == null){
+                        operations.opsForValue().set(userLikeKey, 0);
+                    }
+                    operations.opsForValue().increment(userLikeKey);
+                }
+                return operations.exec();//表示的是提交事务
+            }
+        });
     }
 
     //查询实体点赞的数量
