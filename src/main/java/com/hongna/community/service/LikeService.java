@@ -50,6 +50,11 @@ public class LikeService {
         return redisTemplate.opsForSet().size(entityLikeKey);
     }
 
+    public int findUserLikeCount(int userId){
+        String userLikeKey = RedisKeyUtil.getUserLikeKey(userId);
+        Integer count = (Integer) redisTemplate.opsForValue().get(userLikeKey);
+        return count == null ? 0: count.intValue();
+    }
     //查询某人对某实体的点赞状态
     //返回int 是为了以后业务扩展 比如点了踩啥的记录状态
     public int findEntityLikeStatus(int userId,int entityType,int entityId){

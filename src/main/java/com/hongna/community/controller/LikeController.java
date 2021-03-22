@@ -25,19 +25,22 @@ public class LikeController {
     @Autowired
     private HostHolder hostHolder;
 
-    @RequestMapping(path = "/like",method = RequestMethod.POST)
+    @RequestMapping(path="/like",method = RequestMethod.POST)
     @ResponseBody
-    public String like(int entityType,int entityId){
+    public String like(int entityType, int entityId, int entityUserId){
+        //当前用户点赞
         User user = hostHolder.getUser();
-        //实现点赞
-        likeService.like(user.getId(),entityType,entityId);
-        //统计数量
+
+        //点赞
+        likeService.like(user.getId(), entityType, entityId, entityUserId);
+        //数量
         long likeCount = likeService.findEntityLikeCount(entityType,entityId);
         //状态
-        int likeStatus = likeService.findEntityLikeStatus(user.getId(),entityType,entityId);
-        Map<String,Object> map = new HashMap<>();
-        map.put("likeCount",likeCount);
-        map.put("likeStatus",likeStatus);
-        return CommunityUtil.getJsonString(0,null,map);
+        int likeStatus = likeService.findEntityLikeStatus(user.getId(), entityType, entityId);
+        //返回的结果
+        Map<String, Object> map = new HashMap<>();
+        map.put("likeCount", likeCount);
+        map.put("likeStatus", likeStatus);
+        return CommunityUtil.getJsonString(0,null, map);
     }
 }
