@@ -28,14 +28,19 @@ public class ServiceLoggerAspect {
 
     @Before("pointcut()")
     public void before(JoinPoint joinPoint){
-        //用户{1.2.3.4}，在{xxxx},访问了{com.hsw.community.service.xxx}
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = requestAttributes.getRequest();
+        //用户[1,2,3,4],在[xxx],访问了[com.newcoder.community.service.xxx()].
+        //利用一个工具类获取Request相关的内容
+        ServletRequestAttributes attributes = (ServletRequestAttributes)
+                RequestContextHolder.getRequestAttributes();
+        if(attributes == null){
+            return;
+        }
+        HttpServletRequest request = attributes.getRequest();
         String ip = request.getRemoteHost();
         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        String TypeName = joinPoint.getSignature().getDeclaringTypeName(); //类名
-        String methodName = joinPoint.getSignature().getName();//方法名
-        String target = TypeName+"."+methodName;
-        logger.info(String.format("用户[%s],在[%s],访问了[%s]",ip,now,target));
+        //getDeclaringTypeName:目标的类名 getName:目标的方法名
+        String target = joinPoint.getSignature().getDeclaringTypeName() + "."
+                + joinPoint.getSignature().getName();
+        logger.info(String.format("用户[%s],在[%s],访问了[%s].",ip, now,target));
     }
 }

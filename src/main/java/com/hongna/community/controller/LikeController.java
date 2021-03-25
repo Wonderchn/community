@@ -1,7 +1,10 @@
 package com.hongna.community.controller;
 
+import com.hongna.community.entity.Event;
 import com.hongna.community.entity.User;
+import com.hongna.community.event.EventProducer;
 import com.hongna.community.service.LikeService;
+import com.hongna.community.util.CommunityConstant;
 import com.hongna.community.util.CommunityUtil;
 import com.hongna.community.util.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +21,19 @@ import java.util.Map;
  */
 
 @Controller
-public class LikeController {
+public class LikeController implements CommunityConstant {
     @Autowired
     private LikeService  likeService;
 
     @Autowired
     private HostHolder hostHolder;
 
+    @Autowired
+    private EventProducer eventProducer ;
+
     @RequestMapping(path="/like",method = RequestMethod.POST)
     @ResponseBody
-    public String like(int entityType, int entityId, int entityUserId){
+    public String like(int entityType, int entityId, int entityUserId, int postId) {
         //当前用户点赞
         User user = hostHolder.getUser();
 
@@ -37,6 +43,16 @@ public class LikeController {
         long likeCount = likeService.findEntityLikeCount(entityType,entityId);
         //状态
         int likeStatus = likeService.findEntityLikeStatus(user.getId(), entityType, entityId);
+        if(likeStatus == 1){
+            Event event = new Event()
+                    .setTopic(TOPIC_LIKE)
+                    .setUserId(hostHolder.getUser().getId())
+                    .setEntityType(entityType)
+                    .setEntityId(entityId)
+                    .setEntityUserId(entityUserId)
+                    .setData("postId",postId);
+            eventProducer.fireEvent(event);
+        }
         //返回的结果
         Map<String, Object> map = new HashMap<>();
         map.put("likeCount", likeCount);

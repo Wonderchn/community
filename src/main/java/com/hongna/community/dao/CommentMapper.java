@@ -19,4 +19,7 @@ public interface CommentMapper {
      * @return
      */
     int insertComment(Comment comment);
+
+    Comment findCommentById(int id);
+
 }

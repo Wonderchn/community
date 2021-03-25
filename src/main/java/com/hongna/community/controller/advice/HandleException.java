@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 统一处理异常
+ * ControllerAdvice
+ */
 @ControllerAdvice(annotations = Controller.class)
 public class HandleException {
     private static final Logger logger = LoggerFactory.getLogger(HandleException.class);
