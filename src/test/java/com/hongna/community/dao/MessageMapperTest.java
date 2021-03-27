@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-
+import org.junit.jupiter.api.Test;
 @SpringBootTest
 class MessageMapperTest {
     @Autowired
@@ -19,7 +19,7 @@ class MessageMapperTest {
         System.out.println(i);
 
         List<Message>
-         messageList= messageMapper.selectLetter("111_115", 0, 5);
+         messageList= messageMapper.selectLetters("111_115", 0, 5);
         System.out.println(messageList);
 
         int i1 = messageMapper.selectLetterCount("111_115");

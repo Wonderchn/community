@@ -3,6 +3,7 @@ package com.hongna.community.config;
 import com.hongna.community.controller.interceptor.Alphainterceptor;
 import com.hongna.community.controller.interceptor.LoginRequiredInterceptor;
 import com.hongna.community.controller.interceptor.LoginTicketInterceptor;
+import com.hongna.community.controller.interceptor.MessageInterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -18,6 +19,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private LoginTicketInterceptor loginTicketInterceptor;
     @Autowired
     private LoginRequiredInterceptor loginRequiredInterceptor;
+
+    @Autowired
+    private MessageInterator messageInterator;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(alphaInterceptor)    //不写下几行会拦截一切请求
@@ -28,5 +32,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/*/*.css","/*/*.js","/*/*.jpg","/*/*.jpeg");
         registry.addInterceptor(loginRequiredInterceptor)
                 .excludePathPatterns("/*/*.css","/*/*.js","/*/*.jpg","/*/*.jpeg");
+
+        registry.addInterceptor(messageInterator)
+                .excludePathPatterns("/*/*.css", "/*/*.js", "/*/*.jpg", "/*/*.jpeg", "/*/*.png");
     }
 }

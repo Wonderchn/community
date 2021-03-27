@@ -1,17 +1,33 @@
 package com.hongna.community.entity;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
 import java.util.Date;
-
+//此处的type在elasticsearch后面的版本中将被取消，所以此处type我们可以看做是一个固定值
+//
+@Document(indexName = "discusspost", shards = 6,replicas = 3 )
 public class DiscussPost {
-
+    @Id
     private int id;
+    @Field(type = FieldType.Integer)
     private int userId;
+    //两个分词器，可以满足我们的需求
+    @Field(type = FieldType.Text,analyzer = "ik_max_word" , searchAnalyzer = "ik_smart")
     private String title;
+    @Field(type = FieldType.Text,analyzer = "ik_max_word" , searchAnalyzer = "ik_smart")
     private String content;
+    @Field(type = FieldType.Integer)
     private int type;
+    @Field(type = FieldType.Integer)
     private int status;
+    @Field(type = FieldType.Date)
     private Date createTime;
+    @Field(type = FieldType.Integer)
     private int commentCount;
+    @Field(type = FieldType.Double)
     private double score;
 
     public int getId() {

@@ -1,15 +1,17 @@
 package com.hongna.community.util;
 
+import com.hongna.community.CommnityApplication;
 import com.hongna.community.dao.LoginTicketMapper;
 import com.hongna.community.entity.LoginTicket;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 
 @SpringBootTest
