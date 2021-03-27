@@ -1,12 +1,13 @@
 package com.hongna.community.dao;
 
 import com.hongna.community.entity.Message;
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-import org.junit.jupiter.api.Test;
+
 @SpringBootTest
 class MessageMapperTest {
     @Autowired

@@ -1,7 +1,8 @@
 package com.hongna.community.dao;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.annotation.KafkaListener;

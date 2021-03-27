@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.Date;
 //此处的type在elasticsearch后面的版本中将被取消，所以此处type我们可以看做是一个固定值
 //
-@Document(indexName = "discusspost", shards = 6,replicas = 3 )
+@Document(indexName = "discusspost", type = "_doc",shards = 6,replicas = 3 )
 public class DiscussPost {
     @Id
     private int id;

@@ -3,7 +3,12 @@ server:
   servlet:
     context-path: /community
 spring:
-
+  main:
+    allow-bean-definition-overriding: true
+  data:
+    elasticsearch:
+      cluster-name: nowcoder
+      cluster-nodes: 127.0.0.1:9300
   kafka:
     bootstrap-servers: localhost:9092
     consumer:

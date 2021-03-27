@@ -4,7 +4,7 @@ import com.hongna.community.CommnityApplication;
 import com.hongna.community.dao.LoginTicketMapper;
 import com.hongna.community.entity.LoginTicket;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
