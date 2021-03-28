@@ -79,8 +79,10 @@ public class DiscussPostController implements CommunityConstant {
         page.setLimit(5);
         page.setPath("/discuss/detail/" + discussPostId);
         page.setRows(post.getCommentCount());
+
         //评论：给帖子的评论
         //回复：给评论的评论
+
         //评论列表
         List<Comment> commentList = commentService.findCommentsByEntity(
                 ENTITY_TYPE_POST, post.getId(), page.getOffset(), page.getLimit());
