@@ -23,7 +23,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Comm
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/resources/**");
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // 授权
@@ -44,8 +43,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Comm
                         AUTHORITY_ADMIN,
                         AUTHORITY_MODERATOR
                 )
+                .antMatchers(
+                        "/discuss/top",
+                        "/discuss/wonderful"
+                )
+                .hasAnyAuthority(
+                        AUTHORITY_MODERATOR
+                )
+                .antMatchers(
+                        "/discuss/delete",
+                        "/data/**"
+                )
+                .hasAnyAuthority(
+                        AUTHORITY_ADMIN
+                )
                 .anyRequest().permitAll()
                 .and().csrf().disable();
+
 
         // 权限不够时的处理
         http.exceptionHandling()

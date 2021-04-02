@@ -147,27 +147,24 @@ public class MessageController implements CommunityConstant {
     }
 
 
-    @RequestMapping(path="/notice/list", method = RequestMethod.GET)
-    public String getNoticeList(Model model){
+    @RequestMapping(path = "/notice/list", method = RequestMethod.GET)
+    public String getNoticeList(Model model) {
         User user = hostHolder.getUser();
 
-        //查询评论通知
+        // 查询评论类通知
         Message message = messageService.findLatestNotice(user.getId(), TOPIC_COMMENT);
-        Map<String, Object> messageVO = new HashMap<>();
-        if(message != null){
-            messageVO.put("message",message);
+        if (message != null) {
+            Map<String, Object> messageVO = new HashMap<>();
+            messageVO.put("message", message);
 
-            //转义字符
             String content = HtmlUtils.htmlUnescape(message.getContent());
             Map<String, Object> data = JSONObject.parseObject(content, HashMap.class);
 
-            //这里存放的是最新的一个对象
             messageVO.put("user", userService.findUserById((Integer) data.get("userId")));
             messageVO.put("entityType", data.get("entityType"));
             messageVO.put("entityId", data.get("entityId"));
             messageVO.put("postId", data.get("postId"));
 
-            //还需要查询这一类通知的总数量和未读通知数量
             int count = messageService.findNoticeCount(user.getId(), TOPIC_COMMENT);
             messageVO.put("count", count);
 
@@ -176,23 +173,16 @@ public class MessageController implements CommunityConstant {
 
             model.addAttribute("commentNotice", messageVO);
         }
-        else {
-            messageVO.put("message", null);
-            //todo 没想到什么好办法对这里进行修改
-            model.addAttribute("commentNotice", messageVO);
 
-        }
-
-        //查询点赞类通知
+        // 查询点赞类通知
         message = messageService.findLatestNotice(user.getId(), TOPIC_LIKE);
-        messageVO = new HashMap<>();
-        if(message != null){
-            messageVO.put("message",message);
+        if (message != null) {
+            Map<String, Object> messageVO = new HashMap<>();
+            messageVO.put("message", message);
 
             String content = HtmlUtils.htmlUnescape(message.getContent());
             Map<String, Object> data = JSONObject.parseObject(content, HashMap.class);
 
-            //这里存放的是最新的一个对象
             messageVO.put("user", userService.findUserById((Integer) data.get("userId")));
             messageVO.put("entityType", data.get("entityType"));
             messageVO.put("entityId", data.get("entityId"));
@@ -203,25 +193,19 @@ public class MessageController implements CommunityConstant {
 
             int unread = messageService.findNoticeUnreadCount(user.getId(), TOPIC_LIKE);
             messageVO.put("unread", unread);
-            model.addAttribute("likeNotice", messageVO);
-        }
-        else {
-            messageVO.put("message", null);
+
             model.addAttribute("likeNotice", messageVO);
         }
 
-
-
-
-        //查询关注类通知
+        // 查询关注类通知
         message = messageService.findLatestNotice(user.getId(), TOPIC_FOLLOW);
-        messageVO = new HashMap<>();
-        if(message != null){
+        if (message != null) {
+            Map<String, Object> messageVO = new HashMap<>();
             messageVO.put("message", message);
+
             String content = HtmlUtils.htmlUnescape(message.getContent());
             Map<String, Object> data = JSONObject.parseObject(content, HashMap.class);
 
-            //这里存放的是最新的一个对象
             messageVO.put("user", userService.findUserById((Integer) data.get("userId")));
             messageVO.put("entityType", data.get("entityType"));
             messageVO.put("entityId", data.get("entityId"));
@@ -231,29 +215,18 @@ public class MessageController implements CommunityConstant {
 
             int unread = messageService.findNoticeUnreadCount(user.getId(), TOPIC_FOLLOW);
             messageVO.put("unread", unread);
-            model.addAttribute("followNotice", messageVO);
 
-        }
-        else {
-            messageVO.put("message", null);
             model.addAttribute("followNotice", messageVO);
         }
 
-
-
-        //查询所有未读消息数量
+        // 查询未读消息数量
         int letterUnreadCount = messageService.findLetterUnreadCount(user.getId(), null);
         model.addAttribute("letterUnreadCount", letterUnreadCount);
-
-        //返回的是通知的数量
         int noticeUnreadCount = messageService.findNoticeUnreadCount(user.getId(), null);
         model.addAttribute("noticeUnreadCount", noticeUnreadCount);
 
         return "/site/notice";
     }
-
-
-
     @RequestMapping(path = "/notice/detail/{topic}", method = RequestMethod.GET)
     public String getNoticeDetail(@PathVariable("topic") String topic, Page page, Model model){
         User user = hostHolder.getUser();

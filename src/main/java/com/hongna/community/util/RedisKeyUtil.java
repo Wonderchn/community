@@ -12,6 +12,8 @@ public class RedisKeyUtil {
     private static final String PREFIX_KAPTCHA = "kaptcha";
     private static final String PREFIX_TICKET = "ticket";
     private static final String PREFIX_USER = "user";
+    private static final String PREFIX_UV = "uv";
+    private static final String PREFIX_DAU = "dau";
     //用户
     public static String getUserKey(int userId){
         return PREFIX_USER + SPLIT + userId;
@@ -49,5 +51,26 @@ public class RedisKeyUtil {
     //登陆验证码，owner是用户发送过来的临时凭证，维护验证码和用户之间的关系
     public static String getKaptchaKey(String owner){
         return PREFIX_KAPTCHA + SPLIT + owner;
+    }
+
+
+    //单日DV
+    public static String getUVKey(String date){
+        return PREFIX_UV + SPLIT + date;
+    }
+
+    //区间DV
+    public static String getUVKey(String startDate , String endDate){
+        return PREFIX_UV + SPLIT + startDate + SPLIT +endDate;
+    }
+
+    //单日活跃用户
+    public static String getDAUKey(String date){
+        return PREFIX_DAU + SPLIT +date;
+    }
+
+    //区间活跃用户
+    public static String getDAUKey(String startDate, String endDate){
+        return PREFIX_DAU + SPLIT + startDate + SPLIT + endDate;
     }
 }
