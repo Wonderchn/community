@@ -93,3 +93,8 @@ community:
 
 # QuartzProperties
 
+#wk
+wk:
+  image:
+    command: D:/develop/wkhtmltopdf/bin/wkhtmltoimage
+    storage: d:/work/data/wk-image
