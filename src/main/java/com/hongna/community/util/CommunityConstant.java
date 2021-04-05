@@ -56,6 +56,10 @@ public interface CommunityConstant {
      * 主题: 关注
      */
     String TOPIC_FOLLOW = "follow";
+    /**
+     * 主题：分享
+     */
+    String TOPIC_SHARE = "share";
 
     /**
      * 主题: 发帖
