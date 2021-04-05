@@ -57,7 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Comm
                 .hasAnyAuthority(
                         AUTHORITY_ADMIN
                 )
+//                这里写的是允许所有请求访问
                 .anyRequest().permitAll()
+//                这里写的是不开启csrf请求保护
                 .and().csrf().disable();
 
 

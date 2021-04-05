@@ -15,17 +15,17 @@ import javax.servlet.http.HttpServletResponse;
 public class MessageInterator implements HandlerInterceptor {
     @Autowired
     private HostHolder hostHolder;
+
     @Autowired
     private MessageService messageService;
+
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         User user = hostHolder.getUser();
-        //user是否登录，是否模板可以携带
-        if(user!=null&&modelAndView!=null){
+        if (user != null && modelAndView != null) {
             int letterUnreadCount = messageService.findLetterUnreadCount(user.getId(), null);
             int noticeUnreadCount = messageService.findNoticeUnreadCount(user.getId(), null);
-            int unreadCount = letterUnreadCount+noticeUnreadCount;
-            modelAndView.addObject("unreadCount",unreadCount);
+            modelAndView.addObject("allUnreadCount", letterUnreadCount + noticeUnreadCount);
         }
     }
 }

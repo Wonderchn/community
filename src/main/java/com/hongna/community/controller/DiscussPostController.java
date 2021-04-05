@@ -9,7 +9,9 @@ import com.hongna.community.service.UserService;
 import com.hongna.community.util.CommunityConstant;
 import com.hongna.community.util.CommunityUtil;
 import com.hongna.community.util.HostHolder;
+import com.hongna.community.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +42,9 @@ public class DiscussPostController implements CommunityConstant {
 
     @Autowired
     private EventProducer eventProducer;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     @ResponseBody
@@ -178,7 +183,13 @@ public class DiscussPostController implements CommunityConstant {
                 .setEntityType(ENTITY_TYPE_POST)
                 .setEntityId(id);
         eventProducer.fireEvent(event);
+
+        // 计算帖子分数
+        String redisKey = RedisKeyUtil.getPostScoreKey();
+        redisTemplate.opsForSet().add(redisKey, id);
         return CommunityUtil.getJsonString(0);
+
+
     }
     // 删除
     @RequestMapping(path = "/delete", method = RequestMethod.POST)

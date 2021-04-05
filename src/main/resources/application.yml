@@ -18,7 +18,7 @@ spring:
   mail:
     host: smtp.163.com
     username: wonderccc@163.com
-#
+    #
     password: FMBIQCBWEVEDKGWW
     protocol: smtps
   thymeleaf:
@@ -33,12 +33,48 @@ spring:
       maximum-pool-size: 15
       minimum-idle: 5
       idle-timeout: 3000
-#      RedisProperties
+  #      RedisProperties
   redis:
     database: 11
     host: localhost
     port: 6379
     password: 123456
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 15
+        queue-capacity: 100
+    scheduling:
+      pool:
+        size: 5
+
+  quartz:
+    #相关属性配置
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: communityScheduler
+            instanceId: AUTO
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            tablePrefix: QRTZ_
+            isClustered: true
+            clusterCheckinInterval: 10000
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 5
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+    #数据库方式
+    job-store-type: jdbc
+    #初始化表结构
+    #jdbc:
+    #initialize-schema: never
+    scheduler-name: communityScheduler
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.hongna.community.entity
@@ -49,8 +85,11 @@ mybatis:
 community:
   path:
     domain: http://localhost:80
-#    头像保存位置
+    #    头像保存位置
     upload: d:/work/data/upload
+#logging:
+#  level: debug
+# TaskExecutionProperties
 
-
+# QuartzProperties
 
