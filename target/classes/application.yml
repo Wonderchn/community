@@ -39,18 +39,8 @@ spring:
     host: localhost
     port: 6379
     password: 123456
-  task:
-    execution:
-      pool:
-        core-size: 5
-        max-size: 15
-        queue-capacity: 100
-    scheduling:
-      pool:
-        size: 5
-
   quartz:
-    #相关属性配置
+
     properties:
       org:
         quartz:
@@ -68,13 +58,20 @@ spring:
             threadCount: 5
             threadPriority: 5
             threadsInheritContextClassLoaderOfInitializingThread: true
-    #数据库方式
-    job-store-type: jdbc
-    #初始化表结构
+
     #jdbc:
     #initialize-schema: never
     scheduler-name: communityScheduler
-
+    job-store-type: jdbc
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 15
+        queue-capacity: 100
+    scheduling:
+      pool:
+        size: 5
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.hongna.community.entity
@@ -85,16 +82,26 @@ mybatis:
 community:
   path:
     domain: http://localhost:80
-    #    头像保存位置
+    #    ͷ�񱣴�λ��
     upload: d:/work/data/upload
 #logging:
 #  level: debug
 # TaskExecutionProperties
-
 # QuartzProperties
-
 #wk
 wk:
   image:
     command: D:/develop/wkhtmltopdf/bin/wkhtmltoimage
     storage: d:/work/data/wk-image
+#qiniu
+qiniu:
+  key:
+    access: BBdEz85vS7XRq3rsCngj92J-WigC4-11CttgE-GY
+    secret: SzQcAiNQ3WWrmnPv8QwpEnqKDuGpxXSUYk0syQVg
+  bucket:
+    header:
+      name: nowcoder-commnity-header
+      url:  http://qr4q7v4zg.hn-bkt.clouddn.com
+    share:
+      name: nowcoder-commnity-share
+      url: http://qr4q7xc8j.hn-bkt.clouddn.com

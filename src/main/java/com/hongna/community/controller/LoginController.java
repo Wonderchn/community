@@ -7,7 +7,6 @@ import com.hongna.community.util.CommunityConstant;
 
 import com.hongna.community.util.CommunityUtil;
 import com.hongna.community.util.RedisKeyUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;

@@ -1,7 +1,5 @@
 package com.hongna.community.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import java.util.Date;
 public class Comment {
