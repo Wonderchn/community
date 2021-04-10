@@ -105,3 +105,16 @@ qiniu:
     share:
       name: nowcoder-commnity-share
       url: http://qr4q7xc8j.hn-bkt.clouddn.com
+caffeine:
+  posts:
+    max-size: 15
+    expire-seconds: 180
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+
+

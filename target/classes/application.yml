@@ -82,7 +82,7 @@ mybatis:
 community:
   path:
     domain: http://localhost:80
-    #    ͷ�񱣴�λ��
+    #    头像保存位置
     upload: d:/work/data/upload
 #logging:
 #  level: debug
@@ -105,3 +105,16 @@ qiniu:
     share:
       name: nowcoder-commnity-share
       url: http://qr4q7xc8j.hn-bkt.clouddn.com
+caffeine:
+  posts:
+    max-size: 15
+    expire-seconds: 180
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+
+
