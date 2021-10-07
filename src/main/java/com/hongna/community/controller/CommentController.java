@@ -36,6 +36,7 @@ public class CommentController implements CommunityConstant {
     @Autowired
     private RedisTemplate redisTemplate;
     @RequestMapping(path="/add/{discussPostId}", method = RequestMethod.POST)
+    //在前端中含有comment的信息 Spring MVC 会帮我们自动封装
     public String addComment(@PathVariable("discussPostId") int discussPostId, Comment comment){
         //补全comment的数据
         comment.setUserId(hostHolder.getUser().getId());

@@ -30,7 +30,7 @@ public class AlphaController {
     }
 
     @RequestMapping("/data")
-    @ResponseBody
+    @ResponseBody   
     public String getData() {
         return alphaService.find();
     }
