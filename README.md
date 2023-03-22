@@ -1,12 +1,45 @@
-# 首要开发
+- [ 首要开发](#head1)
+  - [ 开发社区首页](#head2)
+- [ 基础开发](#head3)
+  - [ 开发注册功能](#head4)
+  - [ 开发登录功能（并给予登录凭证）](#head5)
+  - [ 显示登录信息](#head6)
+  - [ 账号设置](#head7)
+  - [ 检查登录状态](#head8)
+- [ 帖子相关开发](#head9)
+  - [ 前缀树](#head10)
+  - [ 发布新帖子](#head11)
+  - [ 展现帖子详情](#head12)
+  - [ 显示评论](#head13)
+  - [ 添加评论](#head14)
+  - [ 私信](#head15)
+    - [ 私信之展示列表](#head16)
+    - [ 增加私信](#head17)
+    - [ 读私信自动减数量](#head18)
+  - [ 统一处理异常](#head19)
+    - [ SpringBoot自动处理方式](#head20)
+    - [ @ControllerAdvice和@ExceptionHandler处理异常](#head21)
+    - [ 统一记录日志](#head22)
+- [ Redis使用](#head23)
+  - [ 点赞功能](#head24)
+  - [ 我收到的赞](#head25)
+  - [ 关注、取消关注](#head26)
+  - [ 关注列表粉丝列表](#head27)
+  - [ 利用redis优化登录模块](#head28)
+  - [第5章 阻塞队列(kafka)](#head29)
+    - [ 发送系统通知](#head30)
+    - [ 显示系统通知](#head31)
+  - [第6章 Elasticsearch](#head32)
 
-## 开发社区首页
+# <span id="head1"> 首要开发</span>
+
+## <span id="head2"> 开发社区首页</span>
 
 封装帖子实体类，还有用户实体类，还有Page页面类，我们根据帖子查询，
 
-# 开发2
+# <span id="head3"> 基础开发</span>
 
-## 开发注册功能
+## <span id="head4"> 开发注册功能</span>
 
 需要先开发验证码功能还有完成邮件工具类功能、
 
@@ -16,17 +49,17 @@
 
 当我们使用邮件传来的网址访问时，我们请求会访问数据库，将我们当前的账户激活
 
-## 开发登录功能（并给予登录凭证）
+## <span id="head5"> 开发登录功能（并给予登录凭证）</span>
 
 验证前台的验证码与session中的验证码是否相符，如若不符，返回错误消息。
 
 验证用户的账号与密码，如若没有此账号则返回没有此账号，如若是密码出错，我们则显示，密码错误返回给前台。如若都正确，我们就跳转至首页，并且存储一个登录凭证給数据库。我们如果点击退出登录，我们在数据库中的登录凭证就更改状态为1，那我们输入都正确了，怎么知道我们是已经登录了呢（先把问题放在这里）
 
-## 显示登录信息
+## <span id="head6"> 显示登录信息</span>
 
 因为我们在前端页面并不知道我们是否已经登录，所以我们需要导入拦截器显示已经登录的消息，在拦截器中查看当前浏览器是否有cookie，如果没有则不用在本次页面请求中加入user,如果有，则判断本次登录的凭证是否还存活，如果还存活，则将此cookie的user存储到model中，并在前端中展示。
 
-## 账号设置
+## <span id="head7"> 账号设置</span>
 
 我们访问账号设置页，我们在controller中设置get方法，然后返回的是账号设置页。
 
@@ -36,27 +69,27 @@
 
 
 
-## 检查登录状态
+## <span id="head8"> 检查登录状态</span>
 
 我们在前面开发的账号设置，并不能让每个用户都登陆，如果没登录的话就不能登录，那我们该如何实现这个功能呢，通过注解与拦截器，我们实现拦截未登录用户。怎么实现的呢，如果登录了的话，我们在本次请求中hostHolder 保留有User，我们在拦截器中判断是否有User就可以判断是否已经登录。
 
 
 
-# 帖子相关开发
+# <span id="head9"> 帖子相关开发</span>
 
-## 前缀树
+## <span id="head10"> 前缀树</span>
 
 我们需要使用前缀树，然后我们用前缀树实现过滤敏感词，然后我们的帖子和评论等发布时都需要前缀树进行敏感词的过滤。
 
-## 发布新帖子
+## <span id="head11"> 发布新帖子</span>
 
 前端判断用户是否已经登录，若无登录，发布帖子的功能按钮便不会展现在前端，因为我们不想一次刷新就把整个页面都刷新，所以我们导入了fastJson这个包，前端页面只用js代码(jquery代码)异步请求就可以实现帖子的发送，把前端的内容和标题发送给controller,在controller调用service，存入数据库。
 
-## 展现帖子详情
+## <span id="head12"> 展现帖子详情</span>
 
 查询帖子详情，查询帖子详情，selectDiscussPostById,在前端中帖子列表中封装帖子详情帖子id，controller中get方法中携带前台传来的id，将帖子返回给controller,返回帖子详情。
 
-## 显示评论
+## <span id="head13"> 显示评论</span>
 
 service中封装查询评论或回复的方法，在帖子详情时，通过entityID（帖子的id）统一查询。
 
@@ -64,15 +97,15 @@ service中封装查询评论或回复的方法，在帖子详情时，通过enti
 
 遍历帖子，并查询帖子中是否有回复，如果有回复的话则添加一个map封装map，回复某个人的状态也很容易，只是在判断时添加了一个回复，
 
-## 添加评论
+## <span id="head14"> 添加评论</span>
 
 分状态讨论、分为帖子回复还有回复评论还有回复某个人
 
 
 
-## 私信
+## <span id="head15"> 私信</span>
 
-### 私信之展示列表
+### <span id="head16"> 私信之展示列表</span>
 
 封装Message表，
 
@@ -83,25 +116,25 @@ service中封装查询评论或回复的方法，在帖子详情时，通过enti
 
 还要实现未读私信功能，这个也不难，selectLetterUnreadCount 查询status为0的私信就可以实现需求
 
-### 增加私信
+### <span id="head17"> 增加私信</span>
 
 增加私信功能就是往表中添加数据，我们使用String拼装conversation_id，然后在sql中插入相关数据，默认的status为0(未读状态)
 
 
 
-### 读私信自动减数量
+### <span id="head18"> 读私信自动减数量</span>
 
 当我们点击私信详情时，我们会在Mapper中检查传入的最新几条数据，是否为未读消息，如果是的话，我们就将其标记为是已读，然后返回给controller
 
-## 统一处理异常
+## <span id="head19"> 统一处理异常</span>
 
-### SpringBoot自动处理方式
+### <span id="head20"> SpringBoot自动处理方式</span>
 
 1. 把报错的错误码作为页面名放到如下目录下，当报出来相关错误时会自动显示报错的页面
 
 ![image](https://cdn.nlark.com/yuque/0/2021/png/10362390/1615608769106-d92a5670-d13d-4790-9dd5-2b020076a8a1.png)
 
-### @ControllerAdvice和@ExceptionHandler处理异常
+### <span id="head21"> @ControllerAdvice和@ExceptionHandler处理异常</span>
 
 1.写一个跳转到处理页面的controller，这里在HomeController里面写
 
@@ -109,7 +142,7 @@ service中封装查询评论或回复的方法，在帖子详情时，通过enti
 
 
 
-### 统一记录日志
+### <span id="head22"> 统一记录日志</span>
 
 我们想要对所有service的访问记录，可以使用什么方法呢，SpringAop提供一种思路，我们可以使用切面思想。
 
@@ -123,9 +156,9 @@ service中封装查询评论或回复的方法，在帖子详情时，通过enti
 
 @Aspect
 
-# Redis使用
+# <span id="head23"> Redis使用</span>
 
-## 点赞功能
+## <span id="head24"> 点赞功能</span>
 
 Redis有五种类型：String、Hash、List、Set、Sorted Set
 
@@ -135,7 +168,7 @@ Redis有五种类型：String、Hash、List、Set、Sorted Set
 
 key:like:entity:entityType:entityId  value:userId
 
-## 我收到的赞
+## <span id="head25"> 我收到的赞</span>
 
 重构点赞功能
 
@@ -145,7 +178,7 @@ key:like:user+entitiId value:数量
 
 like:user+实体id
 
-## 关注、取消关注
+## <span id="head26"> 关注、取消关注</span>
 
 private static final String PREFIX_FOLLOWEE = "followee";
 
@@ -181,13 +214,13 @@ return PREFIX_FOLLOWER + SPLIT +entityType + SpLIT + entityId
 
 }
 
-## 关注列表粉丝列表
+## <span id="head27"> 关注列表粉丝列表</span>
 
 根据zset存储的id值进行遍历
 
 
 
-## 利用redis优化登录模块
+## <span id="head28"> 利用redis优化登录模块</span>
 
 
 
@@ -197,13 +230,13 @@ return PREFIX_FOLLOWER + SPLIT +entityType + SpLIT + entityId
 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/10362390/1616858052432-db28f31b-052c-41a3-b3d3-c9cd77bd884a.png)
 
-## 第5章 阻塞队列(kafka)
+## <span id="head29">第5章 阻塞队列(kafka)</span>
 
 在这一章节中，我们使用队列来实现点赞、关注、评论后系统自动发通知
 
 我们首先创建消息生产者还有消息消费者，还有事件对象，生产者在生产消息的时候，给消息绑定事件对象的主题，我们发送消息的同时，消息消费者也绑定这个事件主题，当我们发送消息的时候，消息消费者同时也接受到这个消息，进行消费。![image](https://cdn.nlark.com/yuque/0/2021/png/10362390/1616496306779-9c925127-20b9-4ac1-a52a-a8c7ca79de2d.png)
 
-### 发送系统通知
+### <span id="head30"> 发送系统通知</span>
 
  我们通过消息队列，其实原理很简单，我们通过主题，把对应的事件对象（把message转变为json格式的String数据）封装到消息队列中，消费者对象从消息队列中绑定主题，得到传来的消息(对象)转变为event对象，通过event对象，我们通过message表，复用私信的功能，我们实现系统通知的功能。
 
@@ -217,7 +250,7 @@ follow：关注功能实现，entityId+entityType +userId(当前用户Id)
 
 全部封装到message表中,1为form_id entityId为to_id，这样我们就实现了基本的发送系统通知后台实现
 
-### 显示系统通知
+### <span id="head31"> 显示系统通知</span>
 
 这个显示系统通知，我们就是通过message表来实现，我们通过entityType(conversation_id)来判断
 
@@ -229,7 +262,7 @@ follow：关注功能实现，entityId+entityType +userId(当前用户Id)
 
 
 
-## 第6章 Elasticsearch
+## <span id="head32">第6章 Elasticsearch</span>
 
 我们这章通过Elasticsearch实现对帖子的搜索，我们需要配置Elasticsearch，我们可以把Elasticsearch想象成是一个功能强大的数据库
 
